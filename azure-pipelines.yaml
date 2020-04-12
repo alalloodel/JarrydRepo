@@ -55,7 +55,7 @@ jobs:
           regionName: $(AWS_DEPLOYMENT_REGION)
           scriptType: "inline"
           inlineScript: |
-            cd serverless/storage
+            cd serverless/resources/storage
             ../../node_modules/.bin/serverless deploy --region $(AWS_DEPLOYMENT_REGION) --stage $(AWS_DEPLOYMENT_STAGE)
             cd ../
             cd base-api
