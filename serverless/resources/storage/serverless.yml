@@ -13,7 +13,7 @@ custom:
 
 resources:
   Resources:
-    ## Consumer Mobile Website Busket
+
     WebAppS3Bucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -73,7 +73,7 @@ resources:
               #         - Ref: ConsumerWebsiteOriginAccessIdentity
               OriginCustomHeaders:
                 - HeaderName: Referer
-                  HeaderValue: ${env:CLOUDFRONT_SECRET_CONSUMER}
+                  HeaderValue: ${env:CLOUDFRONT_SECRET}
           Enabled: "true"
           ## Uncomment the following section in case you are using a custom domain
           # Aliases:
@@ -121,6 +121,6 @@ resources:
 
     WebAppCloudFrontDomainName:
       Value:
-        "Fn::GetAtt": [ConsumerWebsiteCloudFrontDistribution, DomainName]
+        "Fn::GetAtt": [WebAppCloudfrontDistribution, DomainName]
       Export:
         Name: ${self:provider.stage}-webAppCloudFrontDomainName
