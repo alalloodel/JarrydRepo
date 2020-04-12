@@ -43,6 +43,7 @@ jobs:
       #     AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
       #   displayName: Deploy sample web app hosted in S3
 ## Comment out for first deployment ------------------------------------ END
+
       - task: Bash@3
         inputs:
           targetType: 'inline'
