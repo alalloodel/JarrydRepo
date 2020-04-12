@@ -43,10 +43,10 @@ jobs:
         inputs:
           versionSpec: ">10.x.x"
           inlineScript: | ##
-            cd serverless
-            npm install
-            ls
-            cd ../
+            - cd serverless
+            - npm install
+            - ls
+            - cd ../
         displayName: Install Serverless Dependencies and plugins
 
       ## Build serverless
