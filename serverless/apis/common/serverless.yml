@@ -68,18 +68,6 @@ functions:
           #   parameters:
           #     querystrings:
           #       subRule: false
-    environment:
-      businessRulesTableName: ${self:custom.dbTables.BusinessRulesTableName}
 
-resources:
-  Outputs:
-      ApiGatewayResourceConsumerPhonenumberVarId:
-        Value:
-          Ref: ApiGatewayResourceConsumerPhonenumberVar
-        Export:
-          Name: ${self:custom.stage}-ApiGatewayResourceConsumerPhonenumberVarId
-      ApiGatewayResourceConsumerId:
-        Value:
-          Ref: ApiGatewayResourceConsumer
-        Export:
-          Name: ${self:custom.stage}-ApiGatewayResourceConsumerId
+# resources:
+#   Outputs:
