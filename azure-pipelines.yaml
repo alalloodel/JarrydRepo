@@ -5,7 +5,7 @@
 # https://aka.ms/yaml
 
 jobs:
-  - job: build-sample-web-app
+  - job: build_sample_web_app
     displayName: Build Integration Serverless
     pool:
       vmImage: ubuntu-latest
