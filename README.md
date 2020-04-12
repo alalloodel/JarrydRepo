@@ -7,7 +7,7 @@
 - API gateway
 - Sample Lambda Function
 
-# Getting Started - Pre-requisits
+# Getting Started - Installing dependencies locally
 
 1. Install Node.js (https://nodejs.org/en/download/)
 2. Install Python (https://www.python.org/downloads/ ensure you add Python to PATH)
@@ -34,36 +34,12 @@ npm start
 
 # Getting Started - Back-End
 
-## Installing AWS Extensions in Azure
-
-- Go to organisation settings (Fig. 1)
-- Go to Extensions (Fig. 2)
-- Browse the marketplace
-- Install AWS extension, if you are not the organisational owner, they will be sent a request to approve the installation.
-
-![org-settings](meta-assets/guide-aws-toolkit-org-settings.png)
-<p align=center> Figure 1: Azure Organisation Settings
-
-![marketplace](meta-assets/guide-aws-toolkit-marketplace-search.png)
-<p align=center> Figure 2: AWS Toolkit Extension
-
-## Files to update
-
-### azure-pipelines.yaml
-
-For the pipeline to deploy, you will need to create a few pipeline variables:
-
-- $(env.AWS_CREDENTIALS_PROFILE_NAME): The profile setup with your AWS credentials in Azure
-- $(env.AWS_DEPLOYMENT_REGION): The region in which you want to deploy your web app
-- $(env.AWS_DEPLOYMENT_BUCKET): The bucket that is created to deploy your web app - must match your web app bucket name *(webAppBucketName variable in serverless/resources/storage/serverless.yml)*.
-- $(env.AWS_DEPLOYMENT_STAGE): The stage of your deployment
-
-### serverless/resources/storage/serverless.yml
+## 1. Update project settings in serverless/resources/storage/serverless.yml
 
 - projectCode: Create a project code (ensure that it will be unique as it affects S3 deployment bucket)
 - webAppBucketName: defaults to projectCode-website
 
-## Deploying manually
+## 2. Deploying manually from local codebase
 
 1. Go to root serverless project folder (serverless) and install dependencies:
 ```bash
@@ -78,6 +54,55 @@ serverless deploy --aws-profile namedAWSCredentials --region us-east-1 --stage d
 3. To add additional serverless projects, copy a sample serverless folder and add the deployment command to the project folder.
 
 4. Note that the serverless project is broken up into multiple smaller projects to alleviate some issues with circular dependencies as well as circumvent the 200 resource limit on cloudformation which is also imposed on serverless.
+
+## 3. Setting up Azure Pipeline for Deployment
+### 3.1 Installing AWS Extensions in Azure
+
+- Go to organisation settings (Fig. 1)
+- Go to Extensions (Fig. 2)
+- Browse the marketplace
+- Install AWS extension, if you are not the organisational owner, they will be sent a request to approve the installation.
+
+![org-settings](meta-assets/guide-aws-toolkit-org-settings.png)
+<p align=center> Figure 1: Azure Organisation Settings
+
+![marketplace](meta-assets/guide-aws-toolkit-marketplace-search.png)
+<p align=center> Figure 2: AWS Toolkit Extension
+
+### 3.2 Setting up the azure pipeline
+
+For the pipeline to deploy, you will need to create a few pipeline variables:
+
+- $(env.AWS_CREDENTIALS_PROFILE_NAME): The profile setup with your AWS credentials in Azure
+- $(env.AWS_DEPLOYMENT_REGION): The region in which you want to deploy your web app
+- $(env.AWS_DEPLOYMENT_BUCKET): The bucket that is created to deploy your web app - must match your web app bucket name *(webAppBucketName variable in serverless/resources/storage/serverless.yml)*.
+- $(env.AWS_DEPLOYMENT_STAGE): The stage of your deployment
+
+Steps are as follows:
+
+![pipeline-step-1](meta-assets/setup-azure-pipeline-1.png)
+<p align=center> Step 1: Setup new pipeline
+
+![pipeline-step-2](meta-assets/setup-azure-pipeline-2.png)
+<p align=center> Step 2: Select repo provider
+
+![pipeline-step-3](meta-assets/setup-azure-pipeline-3.png)
+<p align=center> Step 3: Select repo
+
+![pipeline-step-4](meta-assets/setup-azure-pipeline-4.png)
+<p align=center> Step 4: Select existing yaml file
+
+![pipeline-step-5](meta-assets/setup-azure-pipeline-5.png)
+<p align=center> Step 5: Set path to pipeline yaml file
+
+![pipeline-step-6](meta-assets/setup-azure-pipeline-6.png)
+<p align=center> Step 6: Add environment variables
+
+![pipeline-step-7](meta-assets/setup-azure-pipeline-7.png)
+<p align=center> Step 7: Create new variable
+
+![pipeline-step-8](meta-assets/setup-azure-pipeline-8.png)
+<p align=center> Step 8: Add required variables as per details above
 
 # Future Development
 
