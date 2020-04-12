@@ -34,7 +34,7 @@ jobs:
           globExpressions: "**"
         env:
           AWS_DEPLOYMENT_BUCKET: $(System.AWS_DEPLOYMENT_BUCKET)
-          AWS_DEPLOYMENT_REGION: $(env.AWS_DEPLOYMENT_REGION)
+          AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
           AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
         displayName: Deploy front-end sample web app
 
@@ -54,7 +54,7 @@ jobs:
             cd apis/common
             ../../node_modules/.bin/serverless deploy --region $(env.AWS_DEPLOYMENT_REGION) --stage $(env.AWS_DEPLOYMENT_STAGE)
         env:
-          AWS_DEPLOYMENT_REGION: $(env.AWS_DEPLOYMENT_REGION)
+          AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
           AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
           AWS_DEPLOYMENT_STAGE: $(System.AWS_DEPLOYMENT_STAGE)
         displayName: Deploy serverless back-end
