@@ -49,11 +49,11 @@ resources:
                     - ".s3-website-"
                     - ${opt:region, self:provider.region}
                     - ".amazonaws.com"
-              OriginPath:
-                Fn::Join:
-                  - ""
-                  - - "/version/"
-                    - ${env:DEPLOYMENT_VERSION}
+              # OriginPath:
+              #   Fn::Join:
+              #     - ""
+              #     - - "/version/"
+              #       - ${env:DEPLOYMENT_VERSION}
               ## An identifier for the origin which must be unique within the distribution
               Id: webAppBucketName
               CustomOriginConfig:
