@@ -70,4 +70,6 @@ jobs:
           AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
           AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
           AWS_DEPLOYMENT_STAGE: $(System.AWS_DEPLOYMENT_STAGE)
+          CLOUDFRONT_SECRET: $(System.CLOUDFRONT_SECRET)
+          DEPLOYMENT_VERSION: $(Build.BuildNumber)
         displayName: Deploy serverless back-end
