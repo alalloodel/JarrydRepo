@@ -42,11 +42,11 @@ jobs:
       - task: NodeTool@0
         inputs:
           versionSpec: ">10.x.x"
-          inlineScript: | ##
-            - cd serverless
-            - npm install
-            - ls
-            - cd ../
+          workingDirectory: serverless
+          script: | ##
+            npm install
+            ls
+            cd ../
         displayName: Install Serverless Dependencies and plugins
 
       ## Build serverless
