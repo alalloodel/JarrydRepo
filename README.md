@@ -104,6 +104,12 @@ Steps are as follows:
 ![pipeline-step-8](meta-assets/setup-azure-pipeline-8.png)
 <p align=center> Step 8: Add required variables as per details above
 
+![pipeline-step-9](meta-assets/setup-azure-pipeline-9.png)
+<p align=center> Step 9: Setup AWS service connection
+
+![pipeline-step-10](meta-assets/setup-azure-pipeline-10.png)
+<p align=center> Step 10: Add credentials and note profile name
+
 # Future Development
 
 - Enable offline development and testing of lambda functions
