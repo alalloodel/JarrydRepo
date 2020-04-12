@@ -5,11 +5,12 @@ custom:
   webAppBucketName: ${self:custom.projectCode}-website # Enter a unique bucket name (will fail if the bucket already exists)
 
 provider:
+  stage: ${opt:stage, 'dev'}
   apiGateway:
     restApiId:
-      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiId
+      'Fn::ImportValue': ${self:provider.stage}-ApiGatewayRestApiId
     restApiRootResourceId:
-      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiRootResourceId
+      'Fn::ImportValue': ${self:provider.stage}-ApiGatewayRestApiRootResourceId
 
 lambdaPolicyXRay:
   Effect: Allow

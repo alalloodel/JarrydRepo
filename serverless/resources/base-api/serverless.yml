@@ -47,7 +47,7 @@ functions:
 ## Dummy API to create the base api
   CommonAPIs:
     handler: index.handler
-    name: ${self:custom.stage}-dummy-function
+    name: ${self:provider.stage}-dummy-function
     events:
       - http:
           path: dev
@@ -60,7 +60,7 @@ resources:
         Value:
           Ref: ApiGatewayRestApi
         Export:
-          Name: ${self:custom.stage}-ApiGatewayRestApiId
+          Name: ${self:provider.stage}-ApiGatewayRestApiId
     
       ApiGatewayRestApiRootResourceId:
         Value:
@@ -68,7 +68,7 @@ resources:
             - ApiGatewayRestApi
             - RootResourceId 
         Export:
-          Name: ${self:custom.stage}-ApiGatewayRestApiRootResourceId
+          Name: ${self:provider.stage}-ApiGatewayRestApiRootResourceId
 
       ApiGatewayInvokeUrl:
         Description: Url to invoke the api 
@@ -77,6 +77,6 @@ resources:
             - ""
             - - "https://"
               - Ref: ApiGatewayRestApi
-              - ".execute-api.${opt:region, self:provider.region}.amazonaws.com/${self:custom.stage}"
+              - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
         Export:
-          Name: ${self:custom.stage}-ApiGatewayInvokeUrl
+          Name: ${self:provider.stage}-ApiGatewayInvokeUrl

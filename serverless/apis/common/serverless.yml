@@ -19,16 +19,14 @@ provider:
 ## Import the common API gateway
   apiGateway:
     restApiId:
-      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiId
+      'Fn::ImportValue': ${self:provider.stage}-ApiGatewayRestApiId
     restApiRootResourceId:
-      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiRootResourceId
+      'Fn::ImportValue': ${self:provider.stage}-ApiGatewayRestApiRootResourceId
 
 ## Global environment variables for all lambda functions
   environment:
     stage: ${opt:stage, 'dev'}
-    resourcesStage: ${self:custom.resourcesStage}
     region: ${self:provider.region}
-    Region: ${self:provider.region}
 
 ## Global iam policies for lambda functions
   iamRoleStatements:
