@@ -34,7 +34,7 @@ resources:
                   aws:Referer:
                     - ${env:CLOUDFRONT_SECRET} # Ensure a unique value is set in your pipeline for this to work
         Bucket:
-          Ref: webAppBucketName
+          Ref: WebAppS3Bucket
 
     ## Specifying the CloudFront Distribution to server your Web Application
     WebAppCloudfrontDistribution:
