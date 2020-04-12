@@ -43,10 +43,7 @@ jobs:
         inputs:
           versionSpec: ">10.x.x"
           workingDirectory: serverless
-          script: | ##
-            npm install
-            ls
-            cd ../
+      - bash: npm install -no-cache
         displayName: Install Serverless Dependencies and plugins
 
       ## Build serverless
