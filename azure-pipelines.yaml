@@ -42,7 +42,7 @@ jobs:
       - task: NodeTool@0
         inputs:
           versionSpec: ">10.x.x"
-          workingDirectory: serverless
+        workingDirectory: serverless
       - bash: npm install -no-cache
         displayName: Install Serverless Dependencies and plugins
 
