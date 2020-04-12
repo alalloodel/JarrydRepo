@@ -1,0 +1,83 @@
+service: web-app-api
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+custom: ${file(../../serverless.common.yml):custom}
+
+
+package:
+  individually: true
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, env:AWS_DEFAULT_REGION, 'us-east-1'}
+  ## Enable tracing for X-Ray
+  # tracing:
+  #   apiGateway: true
+  #   lambda: true
+
+  # These environment variables are made available to our functions (lambdas)
+  # under process.env.varName
+  environment:
+    stage: ${self:custom.stage}
+    resourcesStage: ${self:custom.resourcesStage}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - s3:"*"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - cognito-identity:"*"
+      Resource: "*"
+# !!! Use the below statement for testing only - adds administrator access to all lambdas in this serverless template!!!
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/AdministratorAccess'
+
+functions:
+
+## Dummy API to create the base api
+  CommonAPIs:
+    handler: index.handler
+    name: ${self:custom.stage}-CommonAPIs
+    events:
+      - http:
+          path: dev
+          method: ANY
+
+resources:
+  - ${file(api-gateway-errors.yml)} ## Used to remove CORS errors when any errors occur in the gateway
+  - Outputs:
+      ApiGatewayRestApiId:
+        Value:
+          Ref: ApiGatewayRestApi
+        Export:
+          Name: ${self:custom.stage}-ApiGatewayRestApiId
+    
+      ApiGatewayRestApiRootResourceId:
+        Value:
+            Fn::GetAtt:
+            - ApiGatewayRestApi
+            - RootResourceId 
+        Export:
+          Name: ${self:custom.stage}-ApiGatewayRestApiRootResourceId
+
+      ApiGatewayInvokeUrl:
+        Description: Url to invoke the api 
+        Value:
+          Fn::Join:
+            - ""
+            - - "https://"
+              - Ref: ApiGatewayRestApi
+              - ".execute-api.${opt:region, self:provider.region}.amazonaws.com/${self:custom.stage}"
+        Export:
+          Name: ${self:custom.stage}-ApiGatewayInvokeUrl

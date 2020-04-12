@@ -1,0 +1,85 @@
+service: web-app-common
+
+plugins:
+  - serverless-bundle
+  - serverless-offline
+
+custom: ${file(../../serverless.common.yml):custom} ## Imports all serverless.common variables
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, env:AWS_DEFAULT_REGION, 'us-east-1'}
+  ## Uncomment the below tracing to enable x-ray tracing
+  # tracing:
+  #   apiGateway: true
+  #   lambda: true
+
+## Import the common API gateway
+  apiGateway:
+    restApiId:
+      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiId
+    restApiRootResourceId:
+      'Fn::ImportValue': ${self:custom.stage}-ApiGatewayRestApiRootResourceId
+
+## Global environment variables for all lambda functions
+  environment:
+    stage: ${opt:stage, 'dev'}
+    resourcesStage: ${self:custom.resourcesStage}
+    region: ${self:provider.region}
+    Region: ${self:provider.region}
+
+## Global iam policies for lambda functions
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - cognito-identity:*
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - cognito-idp:*
+      Resource: "*"
+# Adding to test if policies are causing issues
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/AdministratorAccess'
+
+functions:
+  HelloWorld:
+    handler: functions/HelloWorld/index.handler
+    name: ${self:provider.stage}-hello-world
+    events:
+      - http:
+          path: helloWorld
+          method: get
+          cors: true
+          statusCode: "200"
+          responseModels: {"application/json": "Empty"}
+          ## Uncomment request to enable query parameters
+          # request: 
+          #   parameters:
+          #     querystrings:
+          #       subRule: false
+    environment:
+      businessRulesTableName: ${self:custom.dbTables.BusinessRulesTableName}
+
+resources:
+  Outputs:
+      ApiGatewayResourceConsumerPhonenumberVarId:
+        Value:
+          Ref: ApiGatewayResourceConsumerPhonenumberVar
+        Export:
+          Name: ${self:custom.stage}-ApiGatewayResourceConsumerPhonenumberVarId
+      ApiGatewayResourceConsumerId:
+        Value:
+          Ref: ApiGatewayResourceConsumer
+        Export:
+          Name: ${self:custom.stage}-ApiGatewayResourceConsumerId
