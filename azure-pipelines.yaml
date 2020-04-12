@@ -45,6 +45,7 @@ jobs:
           inlineScript: | ##
             cd serverless
             npm install
+            ls
             cd ../
         displayName: Install Serverless Dependencies and plugins
 
