@@ -1,5 +1,3 @@
-#TODO: Versioning is not working. Need to turn on encryption, loggin (Encryption | Logging | Versioning)
-
 service: web-app-storage
 
 provider:
@@ -7,9 +5,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, env:AWS_DEFAULT_REGION, 'us-east-1'}
 
-custom:
-  projectCode: jadio-starter-${self:provider.stage} # Unique project code that can be used to identify resources created for the project
-  webAppBucketName: ${self:custom.projectCode}-website # Enter a unique bucket name (will fail if the bucket already exists)
+custom: ${file(../../serverless.common.yml):custom} ## Imports all serverless.common variables
 
 resources:
   Resources:
@@ -20,7 +16,7 @@ resources:
         BucketName: ${self:custom.webAppBucketName}
         WebsiteConfiguration:
           IndexDocument: index.html
-          ErrorDocument: index.html #TODO: Confirm this value
+          ErrorDocument: index.html 
     BucketPolicyWebApp:
       Type: "AWS::S3::BucketPolicy"
       Properties:

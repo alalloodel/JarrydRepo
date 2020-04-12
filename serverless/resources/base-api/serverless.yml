@@ -23,8 +23,7 @@ provider:
   # These environment variables are made available to our functions (lambdas)
   # under process.env.varName
   environment:
-    stage: ${self:custom.stage}
-    resourcesStage: ${self:custom.resourcesStage}
+    stage: ${self:provider.stage}
 
   iamRoleStatements:
     - Effect: Allow
@@ -48,7 +47,7 @@ functions:
 ## Dummy API to create the base api
   CommonAPIs:
     handler: index.handler
-    name: ${self:custom.stage}-CommonAPIs
+    name: ${self:custom.stage}-dummy-function
     events:
       - http:
           path: dev

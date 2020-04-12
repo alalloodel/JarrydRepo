@@ -1,14 +1,8 @@
 ## The common serverless can be used and imported into other serverless projects so that it can be used as a single reference for common variables.
 
 custom:
-  # Our stage is based on what is passed in when running serverless
-  # commands. Or fallsback to what we have set in the provider section.
-  stage: ${opt:stage, 'dev'}
-  region: ${opt:region, env:AWS_DEFAULT_REGION, 'us-east-1'}
-  resourcesStages:
-    prod: prod
-    dev: dev
-  resourcesStage: ${self:custom.resourcesStages.${self:custom.stage}, self:custom.resourcesStages.dev}
+  projectCode: jadio-starter-${self:provider.stage} # Unique project code that can be used to identify resources created for the project
+  webAppBucketName: ${self:custom.projectCode}-website # Enter a unique bucket name (will fail if the bucket already exists)
 
 provider:
   apiGateway:
