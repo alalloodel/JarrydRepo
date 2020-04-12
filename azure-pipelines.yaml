@@ -27,9 +27,9 @@ jobs:
       ## Upload the frontend - Comment out for the first deployment
       - task: S3Upload@1
         inputs:
-          awsCredentials: $(env.AWS_CREDENTIALS_PROFILE_NAME)
-          regionName: $(env.AWS_DEPLOYMENT_REGION)
-          bucketName: $(env.AWS_DEPLOYMENT_BUCKET)
+          awsCredentials: $(AWS_CREDENTIALS_PROFILE_NAME)
+          regionName: $(AWS_DEPLOYMENT_REGION)
+          bucketName: $(AWS_DEPLOYMENT_BUCKET)
           sourceFolder: "frontend/sample-web-app/dist/angular-ngrx-material-starter"
           globExpressions: "**"
         env:
@@ -41,18 +41,18 @@ jobs:
       ## Build serverless
       - task: AWSShellScript@1
         inputs:
-          awsCredentials: $(env.AWS_CREDENTIALS_PROFILE_NAME)
-          regionName: $(env.AWS_DEPLOYMENT_REGION)
+          awsCredentials: $(AWS_CREDENTIALS_PROFILE_NAME)
+          regionName: $(AWS_DEPLOYMENT_REGION)
           scriptType: "inline"
           inlineScript: |
             cd serverless/storage
-            ../../node_modules/.bin/serverless deploy --region $(env.AWS_DEPLOYMENT_REGION) --stage $(env.AWS_DEPLOYMENT_STAGE)
+            ../../node_modules/.bin/serverless deploy --region $(AWS_DEPLOYMENT_REGION) --stage $(AWS_DEPLOYMENT_STAGE)
             cd ../
             cd base-api
-            ../../node_modules/.bin/serverless deploy --region $(env.AWS_DEPLOYMENT_REGION) --stage $(env.AWS_DEPLOYMENT_STAGE)
+            ../../node_modules/.bin/serverless deploy --region $(AWS_DEPLOYMENT_REGION) --stage $(AWS_DEPLOYMENT_STAGE)
             cd ../../
             cd apis/common
-            ../../node_modules/.bin/serverless deploy --region $(env.AWS_DEPLOYMENT_REGION) --stage $(env.AWS_DEPLOYMENT_STAGE)
+            ../../node_modules/.bin/serverless deploy --region $(AWS_DEPLOYMENT_REGION) --stage $(AWS_DEPLOYMENT_STAGE)
         env:
           AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
           AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
