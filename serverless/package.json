@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "[Serverless Stack](https://serverless-stack.com) is a free comprehensive guide to creating full-stack serverless applications. We create a [note taking app](https://demo2.serverless-stack.com) from scratch.",
   "main": "config.js",
-  "dependencies": {
+  "dependencies": 
     "amazon-cognito-identity-js": "^3.2.2",
     "aws-xray-sdk": "^2.5.0",
     "clean-deep": "^3.3.0",
@@ -14,6 +14,7 @@
     "jwt-decode": "^2.2.0",
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.4",
+    "serverless": "^1.67.3",
     "serverless-offline-sns": "^0.68.0",
     "ssh2": "^0.8.7"
   },
