@@ -4,8 +4,10 @@
 
 - Enable anyone to launch and begin developing a web app
 - Includes an Azure pipeline which will deploy the front-end to an S3 bucket and create the following AWS services:
-- API gateway
-- Sample Lambda Function
+  - S3 Deployment bucket
+  - Cloudfront Distribution to serve the web-app deployed in the S3 deployment bucket
+  - API gateway
+  - Sample Lambda Function
 
 # Getting Started - Installing dependencies locally
 
@@ -18,7 +20,9 @@ npm install -g serverless
 
 # Getting Started - Front-end
 
-Replace the sample web app in the frontend folder with yours, or use the provided starter:
+Replace the sample web app in the frontend folder with yours, or use the provided starter.
+
+If you add your own frontend application, make sure to replace the *sourceFolder* parameter in azure-pipelines.yaml to match your build folder.
 
 The starter project was taken from the Git project (https://github.com/tomastrajan/angular-ngrx-material-starter) and includes an Angular 8 starter with material ui library
 
@@ -34,7 +38,7 @@ npm start
 
 # Getting Started - Back-End
 
-## 1. Update project settings in serverless/resources/storage/serverless.yml
+## 1. Update project settings in serverless/serverless.common.yml
 
 - projectCode: Create a project code (ensure that it will be unique as it affects S3 deployment bucket)
 - webAppBucketName: defaults to projectCode-website
@@ -73,11 +77,12 @@ serverless deploy --aws-profile namedAWSCredentials --region us-east-1 --stage d
 
 For the pipeline to deploy, you will need to create a few pipeline variables:
 
-- $(env.AWS_CREDENTIALS_PROFILE_NAME): The profile setup with your AWS credentials in Azure
-- $(env.AWS_DEPLOYMENT_REGION): The region in which you want to deploy your web app
-- $(env.AWS_DEPLOYMENT_BUCKET): The bucket that is created to deploy your web app - must match your web app bucket name *(webAppBucketName variable in serverless/resources/storage/serverless.yml)*.
-- $(env.AWS_DEPLOYMENT_STAGE): The stage of your deployment
-
+- $(AWS_CREDENTIALS_PROFILE_NAME): The profile setup with your AWS credentials in Azure
+- $(AWS_DEPLOYMENT_REGION): The region in which you want to deploy your web app
+- $(AWS_DEPLOYMENT_BUCKET): The bucket that is created to deploy your web app - must match your web app bucket name *(webAppBucketName variable in serverless/resources/storage/serverless.yml)*.
+- $(AWS_DEPLOYMENT_STAGE): The stage of your deployment
+- $(CLOUDFRONT_SECRET): A secret that is included in cloudfront as well as the s3 bucket to secure the bucket and allow access only from CloudFront even though the bucket is public
+- DEPLOYMENT_VERSION: Deployment version of the azure pipeline - can be used as a unique variable if required
 Steps are as follows:
 
 ![pipeline-step-1](meta-assets/setup-azure-pipeline-1.png)
@@ -110,8 +115,13 @@ Steps are as follows:
 ![pipeline-step-10](meta-assets/setup-azure-pipeline-10.png)
 <p align=center> Step 10: Add credentials and note profile name
 
+# Serverless Deployment Policy
+
+There is a sample deployment policy included that can be used to generate the credentials for the serverless deployment policy. This is a good starting point to develop a least priveledge deployment policy.
+
 # Future Development
 
 - Enable offline development and testing of lambda functions
 - Improve sample lambda functions
 - Add knowledge wiki
+- Vet the sample front-end
