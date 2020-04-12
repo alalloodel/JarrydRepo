@@ -18,28 +18,28 @@ jobs:
           checkLatest: true
 
 ## Comment out for first deployment - front-end can only deploy once the S3 bucket has been created ------------------------------------ START
-      # - task: Bash@3
-      #   inputs:
-      #     targetType: 'inline'
-      #     script: | ##
-      #       npm install
-      #       npm run build:prod
-      #     workingDirectory: 'frontend/sample-web-app'
-      #   displayName: Install Frontend dependencies
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: | ##
+            npm install
+            npm run build:prod
+          workingDirectory: 'frontend/sample-web-app'
+        displayName: Install Frontend dependencies
 
-      # ## Upload the frontend - Comment out for the first deployment
-      # - task: S3Upload@1
-      #   inputs:
-      #     awsCredentials: $(AWS_CREDENTIALS_PROFILE_NAME)
-      #     regionName: $(AWS_DEPLOYMENT_REGION)
-      #     bucketName: $(AWS_DEPLOYMENT_BUCKET)
-      #     sourceFolder: "frontend/sample-web-app/dist/angular-ngrx-material-starter"
-      #     globExpressions: "**"
-      #   env:
-      #     AWS_DEPLOYMENT_BUCKET: $(System.AWS_DEPLOYMENT_BUCKET)
-      #     AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
-      #     AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
-      #   displayName: Deploy sample web app hosted in S3
+      ## Upload the frontend - Comment out for the first deployment
+      - task: S3Upload@1
+        inputs:
+          awsCredentials: $(AWS_CREDENTIALS_PROFILE_NAME)
+          regionName: $(AWS_DEPLOYMENT_REGION)
+          bucketName: $(AWS_DEPLOYMENT_BUCKET)
+          sourceFolder: "frontend/sample-web-app/dist/angular-ngrx-material-starter"
+          globExpressions: "**"
+        env:
+          AWS_DEPLOYMENT_BUCKET: $(System.AWS_DEPLOYMENT_BUCKET)
+          AWS_DEPLOYMENT_REGION: $(System.AWS_DEPLOYMENT_REGION)
+          AWS_CREDENTIALS_PROFILE_NAME: $(System.AWS_CREDENTIALS_PROFILE_NAME)
+        displayName: Deploy sample web app hosted in S3
 ## Comment out for first deployment ------------------------------------ END
 
       - task: Bash@3
