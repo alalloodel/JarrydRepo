@@ -12,7 +12,7 @@
     "jimp": "^0.9.3",
     "jsonschema": "^1.2.5",
     "jwt-decode": "^2.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "nodemailer": "^6.4.4",
     "serverless": "^1.67.3",
     "serverless-offline-sns": "^0.68.0",
